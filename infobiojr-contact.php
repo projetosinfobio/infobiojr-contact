@@ -19,8 +19,11 @@ use PHPMailer\PHPMailer\OAuth;
 use League\OAuth2\Client\Provider\Google;
 
 require 'PHPMailer/vendor/autoload.php';
-require_once 'envloader.php';
-loadEnv(__DIR__ . '/.env');
+require_once __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 
 function infobiojr_handle_form() {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'])) {
@@ -39,8 +42,8 @@ function infobiojr_handle_form() {
         $mail->AuthType = 'XOAUTH2';
         $mail->CharSet = PHPMailer::CHARSET_UTF8;
 
-        $mail = $_ENV['AUTH_MAIL'];
-	$clientId = $_ENV['CLIENT_ID'];
+        $mail->oauthUserEmail = 'contato@infobiojr.com.br';
+	      $clientId = $_ENV['CLIENT_ID'];
         $clientSecret = $_ENV['CLIENT_SECRET'];
         $refreshToken = $_ENV['REFRESH_TOKEN'];
 
